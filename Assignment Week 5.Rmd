@@ -1,0 +1,64 @@
+---
+title: "Assignment Week 5"
+author: "Shreyesh Shetty"
+date: "2022-09-20"
+output: 
+  html_document:
+     theme:
+      bootswatch: minty
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## R Markdown
+
+
+```{r Airline,include=FALSE}
+
+Airlinesafety<-read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/airline-safety/airline-safety.csv")
+
+Airlinesafe<-data.frame(Airlinesafety)
+ ##Creating a subset by filtering on the basis of available seat km per week greater than 1 billion and 2 columns with fatality .
+library(dplyr)
+
+air_safe_85_14 <-Airlinesafety[Airlinesafety$avail_seat_km_per_week >1000000000,c("airline","avail_seat_km_per_week","fatal_accidents_85_99","fatal_accidents_00_14")]
+
+
+```
+
+## **1 visualization **
+
+Scatter plot  for seat km per week with fatal accidents between 85 & 99 that have seats km per week more than 1 billion. 
+
+
+```{r , echo=FALSE}
+
+plot(air_safe_85_14$avail_seat_km_per_week/1000000~air_safe_85_14$fatal_accidents_85_99)
+
+```
+
+And seat km per week with fatal accidents between 00 & 14 that have seats km per week more than 1 billion
+
+```{r,echo=FALSE}
+plot(air_safe_85_14$avail_seat_km_per_week/1000000~air_safe_85_14$fatal_accidents_00_14)
+
+```
+
+
+## **2nd visualization **
+
+ggplot to show the distribution of the available seat kilometer per week. 
+
+```{r,echo=FALSE}
+library(ggplot2)
+
+air_safe_85_14 %>%
+  ggplot(aes(avail_seat_km_per_week))+
+  geom_freqpoly(binwidth=100000000)
+
+```
+
+
